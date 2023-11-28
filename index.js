@@ -60,7 +60,8 @@ dotnetProcess.stdout.on('end', () => {
     let json;
 
     try {
-        let jsonText = stdout.slice(stdout.firstIndexOf("\n["), stdout.lastIndexOf("]") + 1);
+        let cleared = stdout.replace(/\r/g, "");
+        let jsonText = cleared.slice(cleared.firstIndexOf("\n["), cleared.lastIndexOf("]\n") + 1).trim();
         json = JSON.parse(jsonText);
     } catch (error) {
         return console.error([
