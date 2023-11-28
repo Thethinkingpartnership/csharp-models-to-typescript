@@ -60,7 +60,9 @@ dotnetProcess.stdout.on('end', () => {
     let json;
 
     try {
-        json = JSON.parse(stdout);
+        let cleared = stdout.replace(/\r/g, "");
+        let jsonText = cleared.slice(cleared.firstIndexOf("\n["), cleared.lastIndexOf("]\n") + 1).trim();
+        json = JSON.parse(jsonText);
     } catch (error) {
         return console.error([
             'The output from `csharp-models-to-json` contains invalid JSON.',
